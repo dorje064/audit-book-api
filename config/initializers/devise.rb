@@ -310,4 +310,16 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+
+  config.jwt do |jwt|
+    # jwt.secret = Rails.application.credentials.devise_jwt_secret_key!
+    jwt.secret = '49009386e402cd266cc603c9951eaf90b2b6cca366d37f788007a6d1d3306cefc19948499a9a3f37e4fb6933f603f5260ce39ae0c3101c758e6f313e2ac1da67' 
+    jwt.dispatch_requests = [
+      ['POST', %r{^/login$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/logout$}]
+    ]
+    jwt.expiration_time = 30.minutes.to_i
+  end
 end
